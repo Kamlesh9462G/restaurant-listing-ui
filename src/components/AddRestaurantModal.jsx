@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import styles from "./AddRestaurantModal.module.css";
 import axios from "axios";
@@ -10,7 +10,10 @@ const AddRestaurantModal = ({ isOpen, onClose, onSave, getRestaurantData }) => {
     address: "",
     contact: "",
     imageLink: "",
+    userId: "",
   });
+  const [users, setUsers] = useState([]);
+  const [selectedUser, setSelectedUser] = useState("");
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -40,6 +43,21 @@ const AddRestaurantModal = ({ isOpen, onClose, onSave, getRestaurantData }) => {
         console.error("Error:", error);
       });
   };
+
+  const getUsers = async () => {
+    try {
+      const apiUrl =
+        "https://restaurant-listing-api-production.up.railway.app/api/v1/user";
+      const resp = await axios.get(apiUrl);
+      setUsers(resp.data.Data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getUsers();
+  }, []);
 
   return (
     <Modal
@@ -79,6 +97,21 @@ const AddRestaurantModal = ({ isOpen, onClose, onSave, getRestaurantData }) => {
           value={restaurantData.rating}
           onChange={handleInputChange}
         />
+        <label>User:</label>
+        <select
+          name="userId"
+          value={(event) => {
+            setSelectedUser(event.target.value);
+          }}
+          onChange={handleInputChange}
+        >
+          <option value="">Select a User</option>
+          {users.map((user) => (
+            <option key={user._id} value={user._id}>
+              {user.name}
+            </option>
+          ))}
+        </select>
       </div>
       <button onClick={handleSubmit}>Save</button>
       <button onClick={onClose}>Cancel</button>

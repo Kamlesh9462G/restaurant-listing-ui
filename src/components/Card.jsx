@@ -13,6 +13,7 @@ const RestaurantCard = ({
   imageLink,
   name,
   address,
+  addedBy,
   restaurantData,
   getRestaurantData,
 }) => {
@@ -71,6 +72,9 @@ const RestaurantCard = ({
           </Typography>
           <Typography variant="body2" color="text.secondary">
             {address}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+          addedBy:{addedBy}
           </Typography>
         </CardContent>
         <CardActions>

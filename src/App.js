@@ -42,6 +42,7 @@ function App() {
             imageLink={card.imageLink}
             name={card.name}
             address={card.address}
+            addedBy={card.addedBy}
             restaurantData={card}
             getRestaurantData={getRestaurantData}
           />
