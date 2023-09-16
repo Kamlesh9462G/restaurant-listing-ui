@@ -11,16 +11,17 @@ const UpdateRestaurantModal = ({
   onUpdate,
   selectedRestaurant,
   getRestaurantData,
-  users
+  users,
 }) => {
   const [updatedData, setUpdatedData] = useState({});
 
   const [selectedUser, setSelectedUser] = useState("");
 
-  console.log("+++++++++", selectedRestaurant);
+  console.log("+++++++++", selectedRestaurant.addedBy);
   useEffect(() => {
     if (selectedRestaurant) {
       setUpdatedData(selectedRestaurant);
+      setSelectedUser(selectedRestaurant.addedBy);
     }
   }, [selectedRestaurant]);
 
@@ -28,6 +29,9 @@ const UpdateRestaurantModal = ({
     const { name, value } = e.target;
 
     setUpdatedData({ ...updatedData, [name]: value });
+
+    // const selectedValue = e.target.value;
+    // setSelectedUser(selectedValue);
   };
 
   const handleSubmit = async () => {
@@ -36,7 +40,7 @@ const UpdateRestaurantModal = ({
       address: updatedData?.address,
       contact: updatedData?.contact,
       imageLink: updatedData?.imageLink,
-      userId:updatedData?.userId
+      userId: updatedData?.userId,
     };
     try {
       const apiUrl = `https://restaurant-listing-api-production.up.railway.app/api/v1/restaurant/${updatedData._id}`;
@@ -89,14 +93,8 @@ const UpdateRestaurantModal = ({
           onChange={handleInputChange}
         />
         <label>User:</label>
-        <select
-          name="userId"
-          value={(event) => {
-            setSelectedUser(event.target.value);
-          }}
-          onChange={handleInputChange}
-        >
-          <option value="">{updatedData.addedBy}</option>
+        <select name="userId" onChange={handleInputChange}>
+        <option value="">{selectedUser}</option>
           {users.map((user) => (
             <option key={user._id} value={user._id}>
               {user.name}
