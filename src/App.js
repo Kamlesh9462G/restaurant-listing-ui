@@ -6,6 +6,7 @@ import axios from "axios";
 
 function App() {
   const [restaurant, setRestaurant] = useState([]);
+  const [users, setUsers] = useState([]);
 
   const getRestaurantData = async () => {
     try {
@@ -21,9 +22,24 @@ function App() {
     getRestaurantData();
   }, []);
 
+  const getUsers = async () => {
+    try {
+      const apiUrl =
+        "https://restaurant-listing-api-production.up.railway.app/api/v1/user";
+      const resp = await axios.get(apiUrl);
+      setUsers(resp.data.Data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getUsers();
+  }, []);
+
   return (
     <div className="App">
-      <NavBar getRestaurantData={getRestaurantData} />
+      <NavBar getRestaurantData={getRestaurantData} users={users} />
       <Box
         sx={{
           display: "grid",
@@ -45,6 +61,7 @@ function App() {
             addedBy={card.addedBy}
             restaurantData={card}
             getRestaurantData={getRestaurantData}
+            users={users}
           />
         ))}
       </Box>

@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import Modal from "react-modal";
 import styles from "./AddRestaurantModal.module.css";
 import axios from "axios";
 Modal.setAppElement("#root");
 
-const AddRestaurantModal = ({ isOpen, onClose, onSave, getRestaurantData }) => {
+const AddRestaurantModal = ({ isOpen, onClose, onSave, getRestaurantData,users }) => {
   const [restaurantData, setRestaurantData] = useState({
     name: "",
     address: "",
@@ -12,7 +12,6 @@ const AddRestaurantModal = ({ isOpen, onClose, onSave, getRestaurantData }) => {
     imageLink: "",
     userId: "",
   });
-  const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState("");
 
   const handleInputChange = (e) => {
@@ -43,21 +42,6 @@ const AddRestaurantModal = ({ isOpen, onClose, onSave, getRestaurantData }) => {
         console.error("Error:", error);
       });
   };
-
-  const getUsers = async () => {
-    try {
-      const apiUrl =
-        "https://restaurant-listing-api-production.up.railway.app/api/v1/user";
-      const resp = await axios.get(apiUrl);
-      setUsers(resp.data.Data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    getUsers();
-  }, []);
 
   return (
     <Modal

@@ -11,8 +11,12 @@ const UpdateRestaurantModal = ({
   onUpdate,
   selectedRestaurant,
   getRestaurantData,
+  users
 }) => {
   const [updatedData, setUpdatedData] = useState({});
+
+  const [selectedUser, setSelectedUser] = useState("");
+
   console.log("+++++++++", selectedRestaurant);
   useEffect(() => {
     if (selectedRestaurant) {
@@ -32,6 +36,7 @@ const UpdateRestaurantModal = ({
       address: updatedData?.address,
       contact: updatedData?.contact,
       imageLink: updatedData?.imageLink,
+      userId:updatedData?.userId
     };
     try {
       const apiUrl = `https://restaurant-listing-api-production.up.railway.app/api/v1/restaurant/${updatedData._id}`;
@@ -83,6 +88,21 @@ const UpdateRestaurantModal = ({
           value={updatedData?.imageLink || ""}
           onChange={handleInputChange}
         />
+        <label>User:</label>
+        <select
+          name="userId"
+          value={(event) => {
+            setSelectedUser(event.target.value);
+          }}
+          onChange={handleInputChange}
+        >
+          <option value="">{updatedData.addedBy}</option>
+          {users.map((user) => (
+            <option key={user._id} value={user._id}>
+              {user.name}
+            </option>
+          ))}
+        </select>
       </div>
       <button
         onClick={() => {

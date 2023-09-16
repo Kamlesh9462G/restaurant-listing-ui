@@ -3,7 +3,7 @@ import styles from "./NabBar.module.css";
 import AddRestaurantModal from "./AddRestaurantModal";
 import { useSnackbar } from "notistack";
 
-const NavBar = ({ getRestaurantData }) => {
+const NavBar = ({ getRestaurantData,users }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
 
@@ -33,6 +33,7 @@ const NavBar = ({ getRestaurantData }) => {
         onClose={closeModal}
         onSave={saveRestaurant}
         getRestaurantData={getRestaurantData}
+        users={users}
       />
     </div>
   );

@@ -16,6 +16,7 @@ const RestaurantCard = ({
   addedBy,
   restaurantData,
   getRestaurantData,
+  users
 }) => {
   const [isUpdateModalOpen, setUpdateModalOpen] = useState(false);
   const [selectedRestaurant, setSelectedRestaurant] = useState({});
@@ -58,6 +59,8 @@ const RestaurantCard = ({
     }
   }
 
+
+
   return (
     <div>
       <Card sx={{ minHeight: 200, maxHeight: 400 }}>
@@ -96,6 +99,7 @@ const RestaurantCard = ({
         onClose={closeUpdateModal}
         selectedRestaurant={selectedRestaurant}
         getRestaurantData={getRestaurantData}
+        users={users}
       />
     </div>
   );
