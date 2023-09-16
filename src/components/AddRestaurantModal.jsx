@@ -1,10 +1,16 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import Modal from "react-modal";
 import styles from "./AddRestaurantModal.module.css";
 import axios from "axios";
 Modal.setAppElement("#root");
 
-const AddRestaurantModal = ({ isOpen, onClose, onSave, getRestaurantData,users }) => {
+const AddRestaurantModal = ({
+  isOpen,
+  onClose,
+  onSave,
+  getRestaurantData,
+  users,
+}) => {
   const [restaurantData, setRestaurantData] = useState({
     name: "",
     address: "",
@@ -12,10 +18,15 @@ const AddRestaurantModal = ({ isOpen, onClose, onSave, getRestaurantData,users }
     imageLink: "",
     userId: "",
   });
-  const [selectedUser, setSelectedUser] = useState("");
+  const [selectedUser, setSelectedUser] = useState("Select a User");
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    const user = users.find((user) => user._id === value);
+    if(user){
+
+      setSelectedUser(user?.name);
+    }
     setRestaurantData({ ...restaurantData, [name]: value });
   };
 
@@ -89,7 +100,7 @@ const AddRestaurantModal = ({ isOpen, onClose, onSave, getRestaurantData,users }
           }}
           onChange={handleInputChange}
         >
-          <option value="">Select a User</option>
+          <option value="">{selectedUser}</option>
           {users.map((user) => (
             <option key={user._id} value={user._id}>
               {user.name}
